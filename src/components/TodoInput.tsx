@@ -5,9 +5,10 @@ import checkIcon from '../assets/icons/Check.png';
 
 interface TodoInputProps {
   addTask: (task: string) => void;
+  isBlackTheme: boolean;
 }
 
-export function TodoInput({ addTask }: TodoInputProps) {
+export function TodoInput({ addTask, isBlackTheme }: TodoInputProps) {
   const [task, setTask] = useState('');
 
   function handleAddNewTask() {
@@ -18,10 +19,11 @@ export function TodoInput({ addTask }: TodoInputProps) {
   }
 
   return (
-    <View style={[styles.inputContainer, Platform.OS === 'ios' ? styles.inputIOSShadow : styles.inputAndroidShadow]}>
+    <View style={[ isBlackTheme ? styles.inputContainerBlack : styles.inputContainer, Platform.OS === 'ios' ? styles.inputIOSShadow : styles.inputAndroidShadow]}>
       <TextInput 
-        style={styles.input} 
+        style={ isBlackTheme ? styles.inputBlack : styles.input} 
         placeholder="Adicionar novo todo..."
+        placeholderTextColor={isBlackTheme ? '#ccc' : '#c5c5c5'}
         returnKeyType="send"
         onChangeText={setTask}
         value={task}
@@ -30,7 +32,7 @@ export function TodoInput({ addTask }: TodoInputProps) {
       <TouchableOpacity
         testID="add-new-task-button"
         activeOpacity={0.7}
-        style={styles.addButton}
+        style={ isBlackTheme ? styles.addButtonBlack : styles.addButton}
         onPress={handleAddNewTask}
       >
         <Image source={checkIcon} />
@@ -70,6 +72,44 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: '#3FAD27',
+    height: 50,
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+  },
+  inputContainerBlack: {
+    backgroundColor: '#212136',
+    borderRadius: 5,
+    marginTop: -25,
+    marginHorizontal: 40,
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inputBlack: {
+    flex: 1,
+    backgroundColor: '#212136',
+    paddingLeft: 12,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+    color: '#fff'
+  },
+  inputIOSShadowBlack: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84
+  },
+  inputAndroidShadowBlack: {
+    elevation: 5
+  },
+  addButtonBlack: {
+    backgroundColor: '#565BFF',
     height: 50,
     paddingHorizontal: 16,
     justifyContent: 'center',
